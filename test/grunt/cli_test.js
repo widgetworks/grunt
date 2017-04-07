@@ -50,4 +50,24 @@ exports['cli'] = {
       test.done();
     });
   },
+  '--flag1 --flag2': function(test) {
+    test.expect(1);
+    grunt.util.spawn({
+      grunt: true,
+      args: ['--gruntfile', 'test/fixtures/Gruntfile-cli.js', '--flag1', '--flag2', 'unknown', 'finalize'],
+    }, function(err, result) {
+      test.deepEqual(getOptionValues(result.stdout), {flag1: true, flag2: true}, 'Options should parse correctly.');
+      test.done();
+    });
+  },
+  '--flag1 --value1=value1 --flag2': function(test) {
+    test.expect(1);
+    grunt.util.spawn({
+      grunt: true,
+      args: ['--gruntfile', 'test/fixtures/Gruntfile-cli.js', '--flag1', '--value1=value1', '--flag2', 'unknown', 'finalize'],
+    }, function(err, result) {
+      test.deepEqual(getOptionValues(result.stdout), {flag1: true, value1: 'value1', flag2: true}, 'Options should parse correctly.');
+      test.done();
+    });
+  },
 };
